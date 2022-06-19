@@ -18,8 +18,26 @@ class App{
         $db = new JsonDb('farm');
         $method = $_SERVER['REQUEST_METHOD'];
 
-        if ('GET' == $method && count($uri) == 1 && $uri[0] === ''){
+        header('Content-Type: application/json');
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+        header('Access-Control-Allow-Credentials: true');
+        header('Access-Control-Max-Age: 1000');
+        header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+
+
+
+        if ('GET' == $method && count($uri) == 1 && $uri[0] === 'animals'){
             echo json_encode($db->showAll());
          }
+        if ('POST' == $method && count($uri) == 1 && $uri[0] === 'animals'){
+            $rawData = file_get_contents("php://input");
+            $data = json_decode($rawData, 1);
+            $db->create($data);
+            $message = ['msg' => 'OK, donkey'];
+        $message = json_encode($message);
+        print_r($message);
+         }
+
     }
 }
