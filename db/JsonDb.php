@@ -33,7 +33,7 @@ class JsonDb
     public function create(array $data): void
     {
         $data['id'] = $this->getId();
-        $this->data[] = (object)$data;
+        $this->data[] = $data;
     }
 
     public function getUserById(int $userId): array
